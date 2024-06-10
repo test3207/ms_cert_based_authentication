@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "allowJs": true,
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "lib": ["dom", "es6", "es2015", "es5"],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "outDir": "dist",
+    "rootDirs": ["./src"],
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es5",
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  },
+  "paths": {
+    "*": ["*", "../types/*"]
+  },
+  "exclude": ["node_modules", "dist"]
+}
