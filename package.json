@@ -1,6 +1,6 @@
 {
   "name": "@test3207/mscba",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Client for authentication with Microsoft Azure AD using OAuth2.0 with certificate",
   "main": "./dist/index.js",
   "dependencies": {
@@ -11,15 +11,13 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:clean": "rm -rf dist && rm -rf node_modules && npm install && npm run build",
-    "release": "release-it"
+    "build:clean": "rm -rf dist && rm -rf node_modules && npm ci && npm run build"
   },
   "author": "test3207",
   "email": "test3207@outlook.com",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.14.2",
-    "release-it": "^17.3.0",
     "ts-node": "^10.9.2",
     "tslint": "^6.1.3",
     "typescript": "5.4.5"
@@ -40,11 +38,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/test3207/ms_cert_based_authentication.git"
-  },
-  "release-it": {
-    "github": {
-      "release": true
-    }
   },
   "publishConfig": {
     "access": "public"
