@@ -24,6 +24,8 @@ jobs:
         run: git tag -d $(git tag -l)
       - name: Fetch remote tags
         run: git fetch --tags
+      - name: List tags
+        run: git tag -l
       - name: Get the latest tag
         id: latest_tag
         run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
