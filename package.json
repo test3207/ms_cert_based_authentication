@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:clean": "rm -rf dist && rm -rf node_modules && npm ci && npm run build"
+    "build:clean": "rm -rf dist && rm -rf node_modules && npm install && npm run build"
   },
   "author": "test3207",
   "email": "test3207@outlook.com",
