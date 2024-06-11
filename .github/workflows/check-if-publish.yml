@@ -1,0 +1,31 @@
+# Check on every push to main branch. If version in package.json is different from the last commit,
+# then create a release with the new version.
+# If no tags existed before, create the release anyway.
+name: Check if publish
+on:
+  push:
+    branches:
+      - main
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get the last tag
+        id: last_tag
+        run: echo ::set-output name=tag::$(git describe --tags --abbrev=0)
+      - name: Get the last version
+        id: last_version
+        run: echo ::set-output name=version::$(node -p "require('./package.json').version")
+      - name: Compare versions
+        id: compare
+        run: echo ::set-output name=should_publish::$(node -p "process.env.INPUT_VERSION != process.env.INPUT_TAG")
+        env:
+          INPUT_VERSION: ${{ steps.last_version.outputs.version }}
+          INPUT_TAG: ${{ steps.last_tag.outputs.tag }}
+      - name: Create release
+        if: steps.compare.outputs.should_publish == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.last_version.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
