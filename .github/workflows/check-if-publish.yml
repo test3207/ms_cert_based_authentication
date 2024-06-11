@@ -3,6 +3,7 @@
 # If no tags existed before, create the release anyway.
 name: Check if publish
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -11,6 +12,9 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
+    outputs:
+      should_publish: ${{ steps.compare.outputs.should_publish }}
+      version: ${{ steps.last_version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -28,9 +32,29 @@ jobs:
         env:
           INPUT_VERSION: ${{ steps.last_version.outputs.version }}
           INPUT_TAG: ${{ steps.last_tag.outputs.tag }}
-      - name: Create release
-        if: steps.compare.outputs.should_publish == 'true'
+
+  publish-npm:
+    runs-on: ubuntu-latest
+    needs: check
+    if: needs.check.outputs.should_publish == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org/
+      - name: Build
+        run: npm run build:clean
+      - name: Publish
+        run: npm publish
+        env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.last_version.outputs.version }}
+          tag_name: ${{ needs.check.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            dist/*
+            package.json
+            README.MD
