@@ -26,6 +26,8 @@ jobs:
         run: git fetch --tags
       - name: List tags
         run: git tag -l
+      - name: what!
+        run: git describe --tags --abbrev=0)
       - name: Get the latest tag
         id: latest_tag
         run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
