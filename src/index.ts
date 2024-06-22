@@ -157,7 +157,12 @@ export class CBAClient {
           maxRedirects: 0,
         }
       );
-      // console.log(res);
+      // console.log(res.data);
+      // In some cases login will ask if should stay login.
+      // Use this to login automatically. Or you can configure "Allow public client flows" in your application.
+      // { sessionId, sCtx, sFT, canary } = params;
+      const params = this.parseAuthResponse(res.data);
+      return await this.loginKmsiAsync(params);
     } catch (error) {
       if (!(error instanceof AxiosError)) {
         throw error;
@@ -170,12 +175,56 @@ export class CBAClient {
           const [key, value] = param.split("=");
           params[key] = value;
         });
-        // console.log(params["code"]);
         return params["code"];
+      } else {
+        throw error;
       }
     }
-    throw new Error("login failed");
   };
+
+  private async loginKmsiAsync(params: any) {
+    const loginKmsiPayload = {
+      LoginOptions: 1,
+      type: 28,
+      ctx: params.sCtx,
+      hpgrequestid: params.sessionId,
+      flowToken: params.sFT,
+      canary: params.canary,
+    };
+    try {
+      const res = await this.httpClient.post(
+        "https://login.microsoftonline.com/kmsi",
+        {
+          ...loginKmsiPayload,
+        },
+        {
+          headers: {
+            "content-type": "application/x-www-form-urlencoded",
+            "cache-control": "no-cache no-store",
+            connection: "keep-alive",
+          },
+          maxRedirects: 0,
+        }
+      );
+      // console.log(res.data);
+    } catch (error) {
+      if (!(error instanceof AxiosError)) {
+        throw error;
+      }
+      if (error.response?.status === 302) {
+        const location = error.response.headers.location;
+        const paramsString = location.split("#")[1].split("&");
+        const params = {};
+        paramsString.forEach((param) => {
+          const [key, value] = param.split("=");
+          params[key] = value;
+        });
+        return params["code"];
+      } else {
+        throw error;
+      }
+    }
+  }
 
   private async getAccessTokenWithCodeAsync(
     code: string,
