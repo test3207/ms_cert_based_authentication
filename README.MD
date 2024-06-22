@@ -6,8 +6,7 @@ Before using this project, you may want to explore the [official authentication 
 
 This project implements a Node.js client for authenticating with Microsoft accounts using certificates. For more information on the authentication flow, refer to the [OAuth 2.0 authorization code flow documentation](https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-auth-code-flow). To understand how to configure certificate-based authentication in your tenant, refer to the [certificate-based authentication guide](https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-certificate-based-authentication).
 
-Does this package still work? Please check the status here! (![Livesite test status](https://github.com/test3207/ms_cert_based_authentication/actions/workflows/status-check.yml/badge.svg)
-)
+Does this package still work? Please check the status here! ![Livesite test status](https://github.com/test3207/ms_cert_based_authentication/actions/workflows/status-check.yml/badge.svg)
 
 ## Usage
 
