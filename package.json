@@ -43,5 +43,11 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "keywords": [
+    "Microsoft Identity Platform",
+    "MSAL",
+    "Certificate Based Authentication",
+    "OAuth2.0"
+  ]
 }
