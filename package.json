@@ -1,6 +1,6 @@
 {
   "name": "@test3207/mscba",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Client for authentication with Microsoft Azure AD using OAuth2.0 with certificate",
   "main": "./dist/index.js",
   "dependencies": {
